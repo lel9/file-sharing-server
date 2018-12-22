@@ -31,14 +31,19 @@ public class File {
         this.path = path;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user; // отправитель
 
-    public File(User user, String name, String path) {
+    public File(User user, String name, String initDir) {
         this.user = user;
         this.name = name;
-        this.path = path;
+        this.path = initDir + "/" + id.toString();
     }
 
     public File() {}

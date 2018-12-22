@@ -6,16 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.FileRepository;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service("fileService")
 public class FileService {
     @Autowired
     private FileRepository repository;
 
-    public void test(User user) {
-        repository.save(new File(user, "fname", "1234"));
+    public File save(User user, String name, String initDir) {
+        File file = new File(user, name, initDir);
+        repository.save(file);
+        return file;
     }
 
-    public File get() {
-        return repository.findByPath("1234");
+    public Optional<File> findById(String id) {
+        return repository.findById(UUID.fromString(id));
     }
 }

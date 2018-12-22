@@ -41,12 +41,6 @@ public class Server {
                 new ClientThread(socket, this).start();
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                try {
-                    server.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }
@@ -62,6 +56,11 @@ public class Server {
     public void addClient(String username, ClientThread client) {
         map.put(username, client);
     }
+
+    public void removeClient(String username) {
+        map.remove(username);
+    }
+
 
     public Socket getClientSocketByUsername(String username) {
         ClientThread clientThread = map.get(username);

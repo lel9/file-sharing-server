@@ -1,10 +1,14 @@
 package service;
 
 import exception.AppException;
+import model.File;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("userService")
 public class UserService {
@@ -13,6 +17,18 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public void addFileToUser(File file, User user) {
+        user.getFiles().add(file);
+        userRepository.save(user);
+    }
+
+    public List<User> findAll() {
+        Iterable<User> all = userRepository.findAll();
+        List<User> res = new ArrayList<>();
+        all.forEach(res::add);
+        return res;
     }
 
     public User registerUser(String username, String email, String password) throws AppException {
@@ -25,7 +41,7 @@ public class UserService {
 
         User user = userRepository.findByUsername(username);
         if (user != null) {
-            throw new AppException("Username already exists!");
+            throw new AppException("Пользователь с таким именем уже существует");
         }
 
         User newUser = new User(username, email, password);

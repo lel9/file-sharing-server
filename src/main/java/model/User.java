@@ -19,7 +19,7 @@ public class User {
 
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="user_id", referencedColumnName="id")
     private List<File> files = new ArrayList<>();
 
@@ -51,7 +51,15 @@ public class User {
         return password;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<File> getFiles() {
+        return files;
     }
 }
